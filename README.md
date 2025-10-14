@@ -1,10 +1,11 @@
 # 25fa-dsc180a-team2
 Sepsis Research Replication
+
 Our group will be replicating this research on Multimorbidity profiles of Sepsis patients using the MIMIC III dataset.
 
 Paper linked [here](https://ccforum.biomedcentral.com/articles/10.1186/s13054-019-2486-6#Sec14)
 
-Setup
+# Setup
 # [Instructions for MIMIC III dataset upload](https://mimic.mit.edu/docs/gettingstarted/):
 MIMIC-III integrates deidentified, comprehensive clinical data of patients admitted to the Beth Israel Deaconess Medical Center. To download the dataset:
 
