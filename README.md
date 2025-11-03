@@ -53,24 +53,8 @@ pixi shell
 ```
 This drops you into a shell where all project dependencies are available for scripting and notebooks.
 
-## 5. Verify the Setup
+## 5. Creating the Dataset
 
-After activivating the Pixi environment, run the following checks to confirm everything is working correctly.
-Check Pixi Instalation
-```bash
-pixi --version
-```
-You should see the installed Pixi version (e.g., pixi 0.14.1).
-Check Environment Activation
-```bash
-which python
-```
-You should see a path pointing to the .pixi/envs directory inside the project (e.g.,
-/Users/<yourname>/25fa-dsc180a-team2/.pixi/envs/default/bin/python).
-Check Python and Key Dependencies
-```bash
-python -c "import sys; print('Python version:', sys.version)"
-python -c "import pandas, numpy; print('Pandas:', pandas.__version__, '| Numpy:', numpy.__version__)"
-```
-Expected output should show valid version numbers for Python, Pandas, and NumPy.
+Work in progress
+
 
