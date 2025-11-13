@@ -1,5 +1,8 @@
 import os
 import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv()
 
 csv_path = os.getenv('FINAL_COHORT_CSV', 'assets/final_cohort.csv')
 if not os.path.exists(csv_path):
