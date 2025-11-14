@@ -6,7 +6,7 @@ platforms = ["osx-64"]
 version = "0.1.0"
 
 [tasks]
-create-cohort = "python scripts/create_cohort.py"
+create-cohort = "python scripts/python/cohort_script.py"
 test-cohort = "python scripts/test_cohort_creation.py"
 
 [dependencies]
@@ -19,3 +19,4 @@ matplotlib = ">=3.10.6,<4"
 seaborn = ">=0.13.2,<0.14"
 sqlalchemy = "*"
 python-dotenv = "*"
+psychopg2-binary = "*"
