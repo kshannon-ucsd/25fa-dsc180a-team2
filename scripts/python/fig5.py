@@ -27,3 +27,41 @@ COMORBIDITY_COLS = [
     "fluid_electrolyte", "blood_loss_anemia", "deficiency_anemias",
     "alcohol_abuse", "drug_abuse", "psychoses", "depression"
 ]
+
+def plot_lca_subgroup_network(df, class_id, node_color, comorbidity_cols,
+                             node_size_scale=2000, edge_weight_scale=60, offset_scale=0.052,
+                             legend_prevalence=(0.5,0.25,0.1)):
+    lca_sub = df[df['latent_class'] == class_id]
+    N = len(lca_sub)
+    prevalence = {d: lca_sub[d].sum() / N for d in comorbidity_cols}
+
+    G = nx.Graph()
+    for d in comorbidity_cols:
+        G.add_node(d, prevalence=prevalence[d])
+    for a, b in combinations(comorbidity_cols, 2):
+        col_a, col_b = lca_sub[a], lca_sub[b]
+        n11 = ((col_a == 1) & (col_b == 1)).sum()
+        n10 = ((col_a == 1) & (col_b == 0)).sum()
+        n01 = ((col_a == 0) & (col_b == 1)).sum()
+        n00 = ((col_a == 0) & (col_b == 0)).sum()
+        table = [[n11, n10], [n01, n00]]
+        _, pval = fisher_exact(table, alternative='greater')
+        if n11 > 0 and pval < 0.05:
+            G.add_edge(a, b, weight=n11/N)
+    node_sizes = [prevalence[n] * node_size_scale for n in G.nodes]
+    edge_weights = [G[u][v]['weight'] * edge_weight_scale for u, v in G.edges]
+    plt.figure(figsize=(9,9))
+    pos = nx.spring_layout(G, k=0.72, scale=10, iterations=350, seed=42)
+    nx.draw_networkx_edges(G, pos, width=edge_weights, edge_color='gray', alpha=0.6)
+    nx.draw_networkx_nodes(G, pos, node_size=node_sizes, node_color=node_color, edgecolors='black', linewidths=2, alpha=1)
+
+    center_x, center_y = np.mean([x for x, y in pos.values()]), np.mean([y for x, y in pos.values()])
+    node_size_map = {node: size for node, size in zip(G.nodes(), node_sizes)}
+    label_pos = {}
+    for node, (x, y) in pos.items():
+        dx, dy = x - center_x, y - center_y
+        r = math.sqrt(node_size_map[node])
+        dist = np.linalg.norm([dx, dy]) or 1
+        label_pos[node] = (x + dx/dist*r*offset_scale, y + dy/dist*r*offset_scale)
+    nx.draw_networkx_labels(G, label_pos, font_size=15)
+
