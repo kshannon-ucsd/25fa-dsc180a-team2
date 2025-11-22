@@ -77,3 +77,9 @@ def plot_lca_subgroup_network(df, class_id, node_color, comorbidity_cols,
     plt.title(f"Subgroup {class_id}", fontsize=20)
     plt.tight_layout()
     plt.show()
+
+if __name__ == "__main__":
+    df = pd.read_csv(LCA_INPUT_CSV)
+    subgroup_colors = { 1: "black", 3: "limegreen", 4: "blue", 6: "magenta" }
+    for class_id, node_color in subgroup_colors.items():
+        plot_lca_subgroup_network(df, class_id, node_color, COMORBIDITY_COLS)
