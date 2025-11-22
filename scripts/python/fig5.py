@@ -65,3 +65,15 @@ def plot_lca_subgroup_network(df, class_id, node_color, comorbidity_cols,
         label_pos[node] = (x + dx/dist*r*offset_scale, y + dy/dist*r*offset_scale)
     nx.draw_networkx_labels(G, label_pos, font_size=15)
 
+
+    legend_sizes = [n * node_size_scale for n in legend_prevalence]
+    for p, s in zip(legend_prevalence, legend_sizes):
+        plt.scatter([], [], s=s, c=node_color, edgecolors='black', linewidths=2, label=f"{int(p*100)}%")
+    plt.legend(
+        scatterpoints=1, frameon=False, labelspacing=1.2, loc='lower left',
+        title="Prevalence", fontsize=12, title_fontsize=13
+    )
+    plt.axis('off')
+    plt.title(f"Subgroup {class_id}", fontsize=20)
+    plt.tight_layout()
+    plt.show()
